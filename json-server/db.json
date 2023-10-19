@@ -1,0 +1,643 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Nương",
+      "email": "nuongnunga8@gmail.com",
+      "password": "11111111",
+      "gender": "Male",
+      "phone": "0376197106",
+      "address": "285 Huy Cận, Cẩm Lệ, Đà Nẵng",
+      "cart": [],
+      "discount": [],
+      "role": "Admin",
+      "avatar": "",
+      "status": true
+    },
+    {
+      "id": 2,
+      "name": "Nương Sama",
+      "email": "nuongnunga1@gmail.com",
+      "password": "11111111",
+      "gender": "Male",
+      "phone": "0982596394",
+      "address": "285 Huy Cận, Cẩm Lệ, Đà Nẵng",
+      "cart": [],
+      "discount": [],
+      "role": "User",
+      "avatar": "",
+      "status": true
+    },
+    {
+      "id": 3,
+      "name": "Nương Hime",
+      "email": "nuongnunga2@gmail.com",
+      "password": "11111111",
+      "gender": "Male",
+      "phone": "0335378998",
+      "address": "285 Huy Cận, Cẩm Lệ, Đà Nẵng",
+      "cart": [],
+      "discount": [],
+      "role": "User",
+      "avatar": "",
+      "status": true
+    },
+    {
+      "id": 4,
+      "name": "Nương Nương ",
+      "email": "nuongnunga3@gmail.com",
+      "password": "11111111",
+      "gender": "Male",
+      "phone": "0376197106",
+      "address": "285 Huy Cận, Cẩm Lệ, Đà Nẵng",
+      "cart": [],
+      "discount": [],
+      "role": "User",
+      "avatar": "",
+      "status": false
+    },
+    {
+      "id": 5,
+      "name": "Nương Hansamu",
+      "email": "nuongnunga4@gmail.com",
+      "password": "11111111",
+      "gender": "Male",
+      "phone": "0376197106",
+      "address": "285 Huy Cận, Cẩm Lệ, Đà Nẵng",
+      "cart": [],
+      "discount": [],
+      "role": "User",
+      "avatar": "",
+      "status": true
+    },
+    {
+      "id": 6,
+      "name": "Nương kakkoi ",
+      "email": "nuongnunga5@gmail.com",
+      "password": "11111111",
+      "gender": "Male",
+      "phone": "0376197106",
+      "address": "285 Huy Cận, Cẩm Lệ, Đà Nẵng",
+      "cart": [],
+      "discount": [],
+      "role": "User",
+      "avatar": "",
+      "status": true
+    },
+    {
+      "id": 7,
+      "name": "Nương Đại Ca",
+      "email": "nuongnunga6@gmail.com",
+      "password": "11111111",
+      "gender": "Male",
+      "phone": "0376197106",
+      "address": "285 Huy Cận, Cẩm Lệ, Đà Nẵng",
+      "cart": [],
+      "discount": [],
+      "role": "User",
+      "avatar": "",
+      "status": false
+    },
+    {
+      "id": 21,
+      "name": "thangn1",
+      "email": "thang1@gmail.com",
+      "password": "123456",
+      "Repassword": "123456",
+      "gender": "male",
+      "phone": "0913305245",
+      "address": "",
+      "role": "user",
+      "avatar": "https://file3.qdnd.vn/data/images/0/2023/05/03/vuhuyen/khanhphan.jpg?dpi=150&quality=100&w=870",
+      "status": true,
+      "cart": [
+        {
+          "id": 2,
+          "name": "Bánh mì heo quay",
+          "price": 27000,
+          "description": "lên tone khá nhẹ, phù hợp với những bạn thích để nền da tự nhiên. Điểm đặc biệt của em này chính là công thức không dầu phù hợp với cả da dầu, da mụn- những làn da khó ưa và khó tìm kem chống nắng nhất mùa hè này.",
+          "purchased": 1,
+          "images": [
+            {
+              "id": 1,
+              "url": "https://beptruong.edu.vn/wp-content/uploads/2021/07/IMG_4451.jpg"
+            },
+            {
+              "id": 2,
+              "url": "https://xebanhmithonhiky.com.vn/wp-content/uploads/2020/04/banh-mi-heo-quay-ngon-khong-the-thieu-nuoc-sot.jpg"
+            },
+            {
+              "id": 3,
+              "url": "https://cdn.tgdd.vn/Files/2021/09/06/1380700/cach-lam-banh-mi-heo-quay-thom-ngon-cho-bua-sang-dinh-duong-202201041047079624.jpg"
+            }
+          ],
+          "category": "Bánh mì",
+          "stock": 160,
+          "quantity": 10,
+          "feedback": [
+            {
+              "comment": "",
+              "rating": 0
+            }
+          ],
+          "totalRating": 0,
+          "idProduct": 2,
+          "priceSize": 0,
+          "size": "M"
+        },
+        {
+          "id": 2,
+          "name": "Bánh mì heo quay",
+          "price": 32000,
+          "description": "lên tone khá nhẹ, phù hợp với những bạn thích để nền da tự nhiên. Điểm đặc biệt của em này chính là công thức không dầu phù hợp với cả da dầu, da mụn- những làn da khó ưa và khó tìm kem chống nắng nhất mùa hè này.",
+          "purchased": 1,
+          "images": [
+            {
+              "id": 1,
+              "url": "https://beptruong.edu.vn/wp-content/uploads/2021/07/IMG_4451.jpg"
+            },
+            {
+              "id": 2,
+              "url": "https://xebanhmithonhiky.com.vn/wp-content/uploads/2020/04/banh-mi-heo-quay-ngon-khong-the-thieu-nuoc-sot.jpg"
+            },
+            {
+              "id": 3,
+              "url": "https://cdn.tgdd.vn/Files/2021/09/06/1380700/cach-lam-banh-mi-heo-quay-thom-ngon-cho-bua-sang-dinh-duong-202201041047079624.jpg"
+            }
+          ],
+          "capacity": [
+            {
+              "id": 1,
+              "name": "M",
+              "price": 0
+            },
+            {
+              "id": 2,
+              "name": "L",
+              "price": 5000
+            }
+          ],
+          "category": "Bánh mì",
+          "stock": 160,
+          "quantity": 10,
+          "feedback": [
+            {
+              "comment": "",
+              "rating": 0
+            }
+          ],
+          "totalRating": 0,
+          "idProduct": 3,
+          "priceSize": 5000,
+          "size": "L"
+        },
+        {
+          "id": 5,
+          "name": "Xôi thập cẩm",
+          "price": 20000,
+          "description": "được thiết kế với kiểu dáng đẹp mắt, nhỏ gọn với tone màu hồng cam đất siêu xinh cùng chất phấn mịn, đậm màu đã làm cho các cô nàng phải say mê đến nao lòng. Đây là dòng phấn siêu HOT của nhà Mac nổi tiếng và được rất nhiều người săn đón trên thị trường.",
+          "purchased": 0,
+          "images": [
+            {
+              "id": 1,
+              "url": "https://cdn.pastaxi-manager.onepas.vn/content/uploads/articles/00001-An-mon%20an%20cong%20thuc/CTV-31-%20cach%20nau%20xoi%20man/cach-nau-xoi-man-thap-cam-don-gian-bang-noi-com-dien-voi-3-buoc-1.jpg"
+            },
+            {
+              "id": 2,
+              "url": "https://i.ytimg.com/vi/DAAmDnzO6MI/maxresdefault.jpg"
+            },
+            {
+              "id": 3,
+              "url": "https://daotaobeptruong.vn/wp-content/uploads/2021/03/xoi-man.jpg"
+            }
+          ],
+          "category": "Xôi",
+          "stock": 70,
+          "quantity": 1,
+          "feedback": [
+            {
+              "comment": "",
+              "rating": 0
+            }
+          ],
+          "totalRating": 0,
+          "idProduct": 4,
+          "priceSize": 0,
+          "size": "M"
+        }
+      ],
+      "discount": []
+    },
+    {
+      "id": 51,
+      "name": "nguyễn văn nhàn 30",
+      "email": "Trieuluong6@gmail.com",
+      "password": "1234567",
+      "gender": "male",
+      "phone": "0913305245",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": true,
+      "cart": [],
+      "discount": []
+    },
+    {
+      "id": 24,
+      "name": "router",
+      "email": "raishun23@gmail.com",
+      "password": "123456",
+      "gender": "male",
+      "phone": "123131321",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": false,
+      "cart": [],
+      "discount": []
+    },
+    {
+      "id": 23,
+      "name": "page",
+      "email": "thang112331231231@gmail.com",
+      "password": "123456789",
+      "gender": "male",
+      "phone": "123131321",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": true,
+      "cart": [],
+      "discount": []
+    },
+    {
+      "id": 79,
+      "name": "page",
+      "email": "nuongnungaxxxx2@gmail.com",
+      "password": "123123",
+      "gender": "male",
+      "phone": "0913305245",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": true,
+      "cart": [],
+      "discount": []
+    },
+    {
+      "id": 62,
+      "name": "nguyễn văn nhàn 30",
+      "email": "thang112331231231xxx@gmail.com",
+      "password": "123123",
+      "gender": "male",
+      "phone": "123131321",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": true,
+      "cart": [],
+      "discount": []
+    },
+    {
+      "id": 75,
+      "name": "thangn1",
+      "email": "thang11233123123qweqwe1xxx@gmail.com",
+      "password": "123123",
+      "gender": "male",
+      "phone": "123131321",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": true,
+      "cart": [],
+      "discount": []
+    },
+    {
+      "id": 54,
+      "name": "adasd",
+      "email": "nuongnungaxxxxxxxxxxxxx1@gmail.com",
+      "password": "123456",
+      "gender": "male",
+      "phone": "0913305245",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": true,
+      "cart": [],
+      "discount": []
+    },
+    {
+      "id": 33,
+      "name": "ngu",
+      "email": "ngu123@gmail.com",
+      "password": "123456",
+      "gender": "male",
+      "phone": "0913305245",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": true,
+      "cart": [],
+      "discount": []
+    },
+    {
+      "id": 31,
+      "name": "thangn123",
+      "email": "thangn123@gmail.com",
+      "password": "123456789",
+      "gender": "male",
+      "phone": "0913305245",
+      "address": "",
+      "role": "user",
+      "avatar": "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
+      "status": true,
+      "cart": [],
+      "discount": []
+    }
+  ],
+  "discount": [
+    {
+      "id": 1,
+      "name": "saleof10%",
+      "price": 0.1,
+      "description": " mã giảm giá 10% ",
+      "number": 10
+    },
+    {
+      "id": 1,
+      "name": "saleof15%",
+      "price": 0.15,
+      "description": " mã giảm giá 15% ",
+      "number": 15
+    },
+    {
+      "id": 1,
+      "name": "saleof20%",
+      "price": 0.2,
+      "description": " mã giảm giá 20% ",
+      "number": 20
+    },
+    {
+      "id": 1,
+      "name": "saleof25%",
+      "price": 0.25,
+      "description": " mã giảm giá 25% ",
+      "number": 25
+    },
+    {
+      "id": 1,
+      "name": "saleof50%",
+      "price": 0.5,
+      "description": " mã giảm giá 50% ",
+      "number": 50
+    },
+    {
+      "id": 1,
+      "name": "saleof75%",
+      "price": 0.75,
+      "description": " mã giảm giá 75% ",
+      "number": 75
+    }
+  ],
+  "product": [
+    {
+      "id": 1,
+      "name": "Bánh mì thịt",
+      "price": 22000,
+      "description": "là dòng kem chống nắng an toàn cho mọi loại da với khả năng chống nắng quang phổ rộng, chống tia UVA, UVB, tia IR-A, HEV. Đặc biệt, sản phẩm có khả năng chống oxy hóa cho da lên đến 12 tiếng, ức chế melanin, bảo vệ và phục hồi làn da khỏe mạnh.",
+      "purchased": 0,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://baoangiang.com.vn/image/fckeditor/upload/2023/20230516/images/clever-junior-694.jpg"
+        },
+        {
+          "id": 2,
+          "url": "https://cdn1.tuoitre.vn/zoom/600_315/471584752817336320/2023/2/20/viet-populaire-copy-e1659353432539-1024x681-16594235658881650374369-1676888750526893807756-41-0-423-730-crop-16768887676751617090180.jpg"
+        },
+        {
+          "id": 3,
+          "url": "https://image.baophapluat.vn/1200x630/Uploaded/2023/athlrayvaupuv/2022_11_04/8a5f09cb-f088-438c-b5b6-97a04e1bdd91-3438.jpg"
+        }
+      ],
+      "capacity": [
+        {
+          "id": 1,
+          "name": "M",
+          "price": 0
+        },
+        {
+          "id": 3,
+          "name": "L",
+          "price": 5000
+        }
+      ],
+      "category": "Bánh mì",
+      "stock": 130,
+      "quantity": 0,
+      "feedback": [
+        {
+          "comment": "",
+          "rating": 0
+        }
+      ],
+      "totalRating": 0
+    },
+    {
+      "id": 3,
+      "name": "Bánh mì chảo",
+      "price": 45000,
+      "description": "là dòng kem chống nắng thế hệ mới của Clarins với hiệu quả chống lại 5 loại ô nhiễm khác nhau. Tái xuất với công dụng được nâng cấp siêu đỉnh, Kem Chống Nắng Clarins UV Plus 5P SPF 50/PA+++ Translucent chắc chắn sẽ không khiến chị em thất vọng.",
+      "purchased": 1,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://inoxkimnguyen.vn/wp-content/uploads/2020/11/huong-dan-cach-lam-banh-mi-chao-tai-nha.jpg"
+        },
+        {
+          "id": 2,
+          "url": "https://cdn.tgdd.vn/2021/12/CookRecipe/Avatar/banh-mi-chao-thap-cam-thumbnail.jpg"
+        },
+        {
+          "id": 3,
+          "url": "https://statics.vinpearl.com/banh-mi-chao-ha-noi-so-2_1680981296.jpg"
+        }
+      ],
+      "capacity": [
+        {
+          "id": 1,
+          "name": "M",
+          "price": 0
+        },
+        {
+          "id": 2,
+          "name": "L",
+          "price": 10000
+        }
+      ],
+      "category": "Bánh mì",
+      "stock": 200,
+      "quantity": 0,
+      "feedback": [
+        {
+          "comment": "",
+          "rating": 0
+        }
+      ],
+      "totalRating": 0
+    },
+    {
+      "id": 4,
+      "name": "Bánh cuốn thịt",
+      "price": 24000,
+      "description": "là dòng nước hoa nam thuộc thương hiệu Versace.  Versace Man Eau Fraiche EDT mang đến phong vị mát mẻ, nam tính của hương gỗ biển. Là sự kết hợp hoàn hảo của trái cây tươi mát và sự ấm áp của rừng sâu.",
+      "purchased": 2,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://img-global.cpcdn.com/recipes/b235f5db0142062d/680x482cq70/banh-cu%E1%BB%91n-trang-ch%E1%BA%A3o-nhan-th%E1%BB%8Bt-bam-n%E1%BA%A5m-meo-recipe-main-photo.jpg"
+        },
+        {
+          "id": 2,
+          "url": "https://beptruong.edu.vn/wp-content/uploads/2016/02/banh-cuon-nhan-thit.jpg"
+        },
+        {
+          "id": 3,
+          "url": "https://i.ytimg.com/vi/jbf90F5vkzQ/maxresdefault.jpg"
+        }
+      ],
+      "capacity": [
+        {
+          "id": 2,
+          "name": "M",
+          "price": 0
+        },
+        {
+          "id": 3,
+          "name": "L",
+          "price": 5000
+        }
+      ],
+      "category": "Bánh cuốn",
+      "stock": 760,
+      "quantity": 0,
+      "feedback": [
+        {
+          "comment": "",
+          "rating": 0
+        }
+      ],
+      "totalRating": 0
+    },
+    {
+      "id": 5,
+      "name": "Xôi thập cẩm",
+      "price": 20000,
+      "description": "được thiết kế với kiểu dáng đẹp mắt, nhỏ gọn với tone màu hồng cam đất siêu xinh cùng chất phấn mịn, đậm màu đã làm cho các cô nàng phải say mê đến nao lòng. Đây là dòng phấn siêu HOT của nhà Mac nổi tiếng và được rất nhiều người săn đón trên thị trường.",
+      "purchased": 1,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://cdn.pastaxi-manager.onepas.vn/content/uploads/articles/00001-An-mon%20an%20cong%20thuc/CTV-31-%20cach%20nau%20xoi%20man/cach-nau-xoi-man-thap-cam-don-gian-bang-noi-com-dien-voi-3-buoc-1.jpg"
+        },
+        {
+          "id": 2,
+          "url": "https://i.ytimg.com/vi/DAAmDnzO6MI/maxresdefault.jpg"
+        },
+        {
+          "id": 3,
+          "url": "https://daotaobeptruong.vn/wp-content/uploads/2021/03/xoi-man.jpg"
+        }
+      ],
+      "category": "Xôi",
+      "stock": 69,
+      "quantity": 1,
+      "feedback": [
+        {
+          "comment": "",
+          "rating": 0
+        }
+      ],
+      "totalRating": 0,
+      "idProduct": 4,
+      "priceSize": 0,
+      "size": "M"
+    },
+    {
+      "id": 6,
+      "name": "Xôi Gà",
+      "price": 23000,
+      "description": "Với công thức chống nước, chống mồ hôi, đẹp cả ngày mà không lem, đây chắc chắn sẽ là vũ khí tối thượng cho đôi mắt thêm phần cuốn hút.",
+      "purchased": 0,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://cdn.tgdd.vn/Files/2021/09/11/1381810/cach-nau-xoi-ga-xe-nuoc-cot-dua-thom-beo-sieu-nhanh-tai-nha-202109110925505443.jpg"
+        },
+        {
+          "id": 2,
+          "url": "https://i.ytimg.com/vi/gZt9CsZCpDM/maxresdefault.jpg"
+        },
+        {
+          "id": 3,
+          "url": "https://giadinh.mediacdn.vn/zoom/740_463/2019/photo1567563365246-1567563365587-crop-15675635522601035943187.jpg"
+        }
+      ],
+      "capacity": [
+        {
+          "id": 2,
+          "name": "M",
+          "price": 0
+        },
+        {
+          "id": 3,
+          "name": "L",
+          "price": 7000
+        }
+      ],
+      "category": "Xôi",
+      "stock": 234,
+      "quantity": 0,
+      "feedback": [
+        {
+          "comment": "",
+          "rating": 0
+        }
+      ],
+      "totalRating": 0
+    },
+    {
+      "name": "Sữa đậu nành",
+      "price": 7000,
+      "description": "",
+      "purchased": "",
+      "images": [
+        null,
+        null,
+        null
+      ],
+      "capacity": [
+        {
+          "id": 1,
+          "name": "M",
+          "price": 0
+        },
+        {
+          "id": 2,
+          "name": "L",
+          "price": 5000
+        }
+      ],
+      "category": "Sữa",
+      "stock": 654,
+      "feedback": [
+        {
+          "comment": "",
+          "rating": 0
+        }
+      ],
+      "totalRating": 0,
+      "id": 7
+    }
+  ]
+}
