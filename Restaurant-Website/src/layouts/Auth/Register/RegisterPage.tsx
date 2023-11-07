@@ -2,19 +2,13 @@
 import React, { useState } from "react";
 import HeaderLogin from "../components/HeaderLogin";
 import FormInput from "../components/FormInput";
-// import { User } from "../../../interface/interface";
-// import CallDataUser from "../components/CallData";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
 
 const RegisterPage = () => {
-  // const userData = CallDataUser();
   const navigate = useNavigate();
-
-  // const filterEmail = userData.map((item) => item.email);
 
   const [user, setUser] = useState<any>({
     firstName: "",
@@ -51,7 +45,7 @@ const RegisterPage = () => {
       newErrors.firstName =
         "firstName phải từ 3 ký tự trở lên và từ 10 ký tự trở xuống";
     } else if (user.lastName.length < 3 || user.lastName.length > 10) {
-      newErrors.firstName =
+      newErrors.lastName =
         "lastName phải từ 3 ký tự trở lên và từ 20 ký tự trở xuống";
     }
 
@@ -72,48 +66,46 @@ const RegisterPage = () => {
     }
 
     setError(newErrors);
-    //* lấy các thành phần newErrors và check từng key
+
     const noErrors = Object.values(newErrors).every(
       (errorMsg) => errorMsg === ""
     );
 
-    //* nếu true thì thực hiện
     if (noErrors) {
-      const newUser = { ...user };
-      console.log(newUser);
-      //* post
-      const res = await axios.post(
-        "http://localhost:8000/api/v1/auth/register",
-        newUser
-      );
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/auth/register",
+          user
+        );
 
-      console.log(res);
-
-      if (res.status === 200) {
-        if (res.data?.success === false) {
-          toast.error(`email ${user.email} đã tồn`, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "colored",
-          });
-        } else {
-          toast.success("đăng ký thành công", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "colored",
-          });
-          setTimeout(() => {
-            navigate("/auth");
-          }, 2500);
+        if (response.status === 201) {
+          if (response.data?.success === false) {
+            toast.error(`email ${user.email} đã tồn tại`, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "colored",
+            });
+          } else {
+            toast.success("Đăng ký thành công", {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "colored",
+            });
+            setTimeout(() => {
+              navigate("/auth");
+            }, 2500);
+          }
         }
+      } catch (error) {
+        console.error(error);
       }
     }
   };
@@ -124,10 +116,7 @@ const RegisterPage = () => {
         <div className=" w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <HeaderLogin heading="Create an account" />
-            <form
-              className="space-y-8 md:space-y-6"
-              onSubmit={(e) => handleSubmit(e)}
-            >
+            <form className="space-y-8 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <FormInput
                   placeholder="UserName"

@@ -13,6 +13,8 @@ import ManageProductPage from "../layouts/Admin/page/ManageProduct/ManageProduct
 import NotFound from "../layouts/User/pages/NotFound";
 import User from "../layouts/Admin/page/User/User";
 import OderHistory from "../layouts/User/pages/orderHistory/OderHistory";
+import Category from "../layouts/Admin/page/categories/category";
+import Size from "../layouts/Admin/page/Size/Size";
 
 const AppRoute: React.FC = () => {
   return (
@@ -34,6 +36,8 @@ const AppRoute: React.FC = () => {
         <Route index element={<DashBoardPage />} />
         <Route path="product" element={<ManageProductPage />} />
         <Route path="user" element={<User />} />
+        <Route path="category" element={<Category />} />
+        <Route path="size" element={<Size />} />
       </Route>
       {/* Not Found */}
       <Route path="*" element={<NotFound />} />

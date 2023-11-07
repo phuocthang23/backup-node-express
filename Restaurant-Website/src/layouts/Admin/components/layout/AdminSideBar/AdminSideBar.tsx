@@ -5,11 +5,15 @@ import { AiOutlineHome, AiOutlineUsergroupAdd } from "react-icons/ai";
 import { BsCalendarRange, BsListCheck, BsNewspaper } from "react-icons/bs";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllUsersServer } from "../../../../../api";
+import { getAllCategory, getAllUsersServer } from "../../../../../api";
+import { BiCategoryAlt } from "react-icons/bi";
+import { getAllSize } from "../../../../../api/size";
 
 const AdminSideBar: React.FC = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>();
+  const [category, setCategory] = useState<any>([]);
+  const [size, setSize] = useState<any>([]);
   const [loaded, setLoaded] = useState(false);
   const handleLogOut = () => {
     localStorage.removeItem("Auth");
@@ -18,7 +22,11 @@ const AdminSideBar: React.FC = () => {
 
   useEffect(() => {
     const data = async () => {
-      const userAll = await getAllUsersServer(null);
+      const userAll = await getAllUsersServer();
+      const allCategory = await getAllCategory();
+      const allSize = await getAllSize();
+      setSize(allSize);
+      setCategory(allCategory);
       setData(userAll);
       setLoaded(true);
     };
@@ -131,10 +139,45 @@ const AdminSideBar: React.FC = () => {
                     Users
                   </span>
                   <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-500 bg-green-50 rounded-full">
-                    {loaded && data.length}
+                    {loaded && data?.length}
                   </span>
                 </Link>
               </li>
+
+              <li>
+                <Link
+                  to="/admin/category"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
+                >
+                  <span className="inline-flex justify-center items-center ml-4">
+                    <BiCategoryAlt className="w-5 h-5" />
+                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">
+                    Category
+                  </span>
+                  <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-500 bg-green-50 rounded-full">
+                    {loaded && category?.length}
+                  </span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/admin/size"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"
+                >
+                  <span className="inline-flex justify-center items-center ml-4">
+                    <AiOutlineUsergroupAdd className="w-5 h-5" />
+                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">
+                    Size Product
+                  </span>
+                  <span className="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-500 bg-green-50 rounded-full">
+                    {loaded && size?.length}
+                  </span>
+                </Link>
+              </li>
+
               <li className="px-5">
                 <div className="flex flex-row items-center h-8">
                   <div className="text-sm font-light tracking-wide text-gray-500">

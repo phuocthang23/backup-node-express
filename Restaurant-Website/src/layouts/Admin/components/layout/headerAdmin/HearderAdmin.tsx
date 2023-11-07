@@ -11,6 +11,12 @@ const HearderAdmin = (props: prop) => {
     props.handleSearch(value);
   }, [value]);
 
+  // const handleSearch = () => {
+  //   const searchParams = new URLSearchParams(location.search);
+  //   searchParams.set("query", value);
+  //   history.push({ search: searchParams.toString() });
+  // };
+
   return (
     <nav className="bg-white border-gray-200 top-0 ">
       <div className="max-w-screen-xl mx-auto p-4">

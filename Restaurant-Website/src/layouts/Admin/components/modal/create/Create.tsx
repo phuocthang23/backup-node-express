@@ -3,12 +3,10 @@
 
 import { Button, Modal } from "flowbite-react";
 import { useEffect, useState } from "react";
-import {
-  apiPostImageProducts,
-  apiPostProducts,
-  getAllCategory,
-} from "../../../../../api";
+import { apiPostProducts, getAllCategory } from "../../../../../api";
 import { ToastContainer, toast } from "react-toastify";
+import { getAllSize } from "../../../../../api/size";
+import { useDispatch } from "react-redux";
 
 export default function Create(propsxx: any) {
   const [openModal, setOpenModal] = useState<string | undefined>();
@@ -19,12 +17,16 @@ export default function Create(propsxx: any) {
   const [dataCategory, setDataCategory] = useState<any>([]);
   const [stock, setStock] = useState<any>("");
   const [description, setDescription] = useState<any>("");
+  const [size, setSize] = useState<any>([]);
+  const [wrap, setWrap] = useState<any>([]);
   const props = { openModal, setOpenModal };
-
+  const dipatch = useDispatch();
   useEffect(() => {
     const category = async () => {
       const response = await getAllCategory();
+      const allSize = await getAllSize();
       setDataCategory(response);
+      setSize(allSize);
     };
     category();
   }, []);
@@ -37,29 +39,36 @@ export default function Create(propsxx: any) {
       price,
       stock,
       description,
+      size: JSON.stringify(wrap),
     };
 
-    const response = await apiPostProducts(data);
-    console.log(response.data.success);
+    // console.log(wrap, "wrap");
+    // console.log(images);
 
-    if (response.data.success) {
-      console.log(response.data);
-      const dataImage = {
-        productId: response.data.data.id,
-        images,
-      };
-      const formData = new FormData();
-      for (const i of Object.entries(dataImage)) formData.append(i[0], i[1]);
-      for (const img of images) formData.append("images", img);
-      await apiPostImageProducts(formData);
+    const formData = new FormData();
+
+    // Đính kèm dữ liệu hình ảnh vào formData
+    for (const img of images) {
+      formData.append("images", img);
+    }
+
+    // Đính kèm dữ liệu sản phẩm vào formData
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
+    const response = await apiPostProducts(formData);
+
+    if (response.status === 201) {
       propsxx.handleUpdate();
-      // //   const abc = await getAllProducts();
+      dipatch({ type: "UPDATE" });
       props.setOpenModal(undefined);
       toast.success("thêm sản phẩm thành công");
     } else {
       toast.error("thêm sản phẩm thất bại");
     }
     setImages([]);
+    // setSize([]);
     setCategory("");
     setName("");
     setStock("");
@@ -70,7 +79,21 @@ export default function Create(propsxx: any) {
   const handleChangeImages = (event: any) => {
     setImages(event.target.files);
   };
-  console.log(images);
+
+  const handleSizeChange = (itemId: any) => {
+    const updatedWrap = [...wrap];
+    const index = updatedWrap.indexOf(itemId);
+
+    if (index > -1) {
+      updatedWrap.splice(index, 1);
+    } else {
+      updatedWrap.push(itemId);
+    }
+
+    setWrap(updatedWrap);
+    console.log(itemId);
+  };
+
   return (
     <>
       <Button onClick={() => props.setOpenModal("default")}>+ Add</Button>
@@ -184,6 +207,28 @@ export default function Create(propsxx: any) {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   required
                 />
+              </div>
+              <div>
+                <label
+                  htmlFor="category"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Size
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {size?.map((item: any) => (
+                    <div key={item.id} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        value={item.id}
+                        // checked={size.includes(item.id)}
+                        onChange={() => handleSizeChange(item.id)} // Thêm sự kiện onChange
+                        className="mr-2"
+                      />
+                      <span>{item.size}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </form>

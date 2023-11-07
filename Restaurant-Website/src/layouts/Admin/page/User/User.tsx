@@ -14,27 +14,29 @@ const User: React.FC = () => {
 
   const handleSearch = async () => {
     // const params = data1.length > 0 ? { name: data1 } : null;
+    // console.log(params);
     // const bb = await getAllUsersServer(params);
     // setData1(bb);
   };
   const handleBlock = async (id: number) => {
     const block = await blockUsersServer(id);
-    // console.log(block);
     setLoading(!loading);
 
     //* thông báo
     if ((block as any).status === 200) {
       toast.success(
-        block.data.message.data.status === 0
+        // eslint-disable-next-line no-constant-condition
+        ((block as any).data = "User has been blocked"
           ? "Block user successfully"
-          : "Unblock user successfully"
+          : "Unblock user successfully")
       );
     }
   };
 
   useEffect(() => {
     const data1 = async () => {
-      const userAll = await getAllUsersServer(null);
+      const userAll = await getAllUsersServer();
+
       setData1(userAll);
     };
     data1();
@@ -49,8 +51,6 @@ const User: React.FC = () => {
             <Table.HeadCell>User name</Table.HeadCell>
             <Table.HeadCell>Email</Table.HeadCell>
             <Table.HeadCell>Avatar</Table.HeadCell>
-            <Table.HeadCell>Phone</Table.HeadCell>
-            <Table.HeadCell>Address</Table.HeadCell>
             <Table.HeadCell>Role</Table.HeadCell>
             <Table.HeadCell>Status</Table.HeadCell>
             <Table.HeadCell>
@@ -71,8 +71,8 @@ const User: React.FC = () => {
                   <Table.Cell className="truncate max-w-[200px]">
                     {row.avatar}
                   </Table.Cell>
-                  <Table.Cell>{row?.address[0]?.phoneNumber}</Table.Cell>
-                  <Table.Cell>{row?.address[0]?.address}</Table.Cell>
+                  {/* <Table.Cell>{row?.address[0]?.phoneNumber}</Table.Cell> */}
+                  {/* <Table.Cell>{row?.address[0]?.address}</Table.Cell> */}
                   <Table.Cell>{row.roleId === 1 ? "Admin" : "User"}</Table.Cell>
                   <Table.Cell>
                     <span

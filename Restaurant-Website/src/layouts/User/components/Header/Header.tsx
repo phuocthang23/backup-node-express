@@ -22,11 +22,12 @@ const Header = () => {
     if (loginUser) {
       const fetchData = async () => {
         const response = await getOneUser(loginUser);
-        setUser((response as any).data.data.data);
+        setUser((response as any).data);
       };
       fetchData();
     }
   }, []);
+  console.log(user);
 
   const handleLogout = () => {
     localStorage.removeItem("Auth");

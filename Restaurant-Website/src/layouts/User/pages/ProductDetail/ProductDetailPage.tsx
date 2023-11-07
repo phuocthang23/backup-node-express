@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  addTocart,
-  getAllSizeProduct,
-  getOneProducts,
-  getOneUser,
-} from "../../../../api";
+import { addTocart, getAllSizeProduct, getOneProducts } from "../../../../api";
 import { BsFillStarFill, BsStar } from "react-icons/bs";
 import { Carousel } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,61 +18,41 @@ const ProductDetailPage: React.FC = () => {
   useEffect(() => {
     const data = async () => {
       const response = await getOneProducts(id);
-      setProduct(response);
-      setSelectedSize(response?.sizeProduct[1]?.size?.priceSize);
-      setSize(response?.sizeProduct[1]?.size?.id);
+      setProduct(response.data);
+      setSelectedSize(response?.data.sizes[1]?.priceSize);
+      setSize(response?.data?.sizes[1]?.id);
     };
     data();
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const loginData: any = localStorage.getItem("Auth");
-
-  const [user, setUser] = useState<any>("");
-
-  useEffect(() => {
-    const data = async () => {
-      const response = await getOneUser(loginData);
-      setUser(response);
-    };
-    data();
-  }, []);
+  console.log(loginData);
 
   //^---------------------------------------------------------------------
   const handleAddToCart = async () => {
     // console.log(sizeProduct);
     const response: any = await getAllSizeProduct(null);
     // setSizeProduct(response);
-    const productSizeArray = response?.data?.data;
+    const productSizeArray = response?.data;
+    console.log(productSizeArray);
     const productId = Number(id);
     const sizeId = Number(size);
-
-    const filteredProducts: any = productSizeArray?.filter((item: any) => {
-      return item.productId === productId && item.sizeId === sizeId;
-    });
-
-    const idFiltered = filteredProducts[0]?.id;
+    console.log(productId, sizeId, "---------------");
 
     const cart = {
-      sizeProductId: idFiltered,
+      productId: productId,
+      sizeId: sizeId,
       quantity: value,
     };
 
-    console.log(cart);
+    console.log(cart, "------------------");
 
-    const responseCart = await addTocart({ loginData, cart });
+    const responseCart = await addTocart(cart);
 
-    if ((responseCart as any).status === 200) {
+    if ((responseCart as any).status === 201) {
       toast.success("đã thêm vào giỏ hàng thành công");
     }
-
-    // console.log(UserId, "user");
-    // console.log(productSizeArray, "sizeProduct");
-    // console.log(id);
-    // console.log(size);
-    // console.log(filteredProducts);
-    // console.log(idFiltered);
-    // console.log(product);
   };
 
   // ^ -------------------------------------------------------------------------------------
@@ -112,15 +87,24 @@ const ProductDetailPage: React.FC = () => {
         <div className="lg:w-[85%]   mx-auto flex flex-wrap bg-white py-20  p-10 gap-[50px]">
           <Carousel className="w-[500px] h-[450px] object-cover ">
             <img
-              src={`${product?.image !== undefined && product?.image[0]?.src}`}
+              src={`${
+                product?.imageProducts !== undefined &&
+                product?.imageProducts[0]?.src
+              }`}
               className="w-[500px] h-[450px]"
             />
             <img
-              src={`${product?.image !== undefined && product?.image[1]?.src}`}
+              src={`${
+                product?.imageProducts !== undefined &&
+                product?.imageProducts[1]?.src
+              }`}
               className="w-[500px] h-[450px]"
             />
             <img
-              src={`${product?.image !== undefined && product?.image[2]?.src}`}
+              src={`${
+                product?.imageProducts !== undefined &&
+                product?.imageProducts[2]?.src
+              }`}
               className="w-[500px] h-[450px]"
             />
           </Carousel>
@@ -156,25 +140,26 @@ const ProductDetailPage: React.FC = () => {
                 <span className="mr-3">Size</span>
                 <div className="relative">
                   <div className="flex items-center">
-                    {product?.sizeProduct !== undefined &&
-                      product?.sizeProduct.map((size) => (
-                        <button
-                          key={size.id}
-                          className={`rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10 mx-2 ${
-                            selectedSize === size?.size?.priceSize
-                              ? "bg-red-500 text-white"
-                              : ""
-                          }`}
-                          onClick={() =>
-                            handleSizeChange(
-                              size?.size?.priceSize,
-                              size?.size?.id
-                            )
-                          }
-                        >
-                          {size?.size.size}
-                        </button>
-                      ))}
+                    {product?.sizes !== undefined &&
+                      product?.sizes.map((size) => {
+                        console.log("size", size.priceSize);
+                        console.log(selectedSize);
+                        return (
+                          <button
+                            key={size.id}
+                            className={`rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10 mx-2 ${
+                              selectedSize === size?.priceSize
+                                ? "bg-red-500 text-white"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              handleSizeChange(size?.priceSize, size?.id)
+                            }
+                          >
+                            {size?.size}
+                          </button>
+                        );
+                      })}
                   </div>
                 </div>
               </div>

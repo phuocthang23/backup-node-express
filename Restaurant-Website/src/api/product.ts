@@ -1,32 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import BaseAxios from "./axiosClient";
+// import BaseAxios from "./axiosClient";
 const token = localStorage.getItem("Auth");
+
 export const getAllProducts = async (data: any) => {
-  return await BaseAxios.get("http://localhost:8000/api/v1/product", {
-    params: data,
-  })
-    .then((response) => {
-      return response.data.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-      // Trả về một giá trị mặc định nếu có lỗi
-      return [];
+  try {
+    const response = await axios.get("http://localhost:8000/product", {
+      headers: { Authorization: `Bearer ${token}` },
+      params: data,
     });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    // Trả về một giá trị mặc định nếu có lỗi
+    return [];
+  }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getOneProducts = (id: any) => {
-  return axios
-    .get(`http://localhost:8000/api/v1/product/${id}`)
-    .then((response) => {
-      return response?.data?.data;
-    });
+  return axios.get(`http://localhost:8000/product/${id}`).then((response) => {
+    return response;
+  });
 };
 
 export const deleteProducts = (id: number) => {
-  return BaseAxios.delete(`http://localhost:8000/api/v1/product/${id}`)
+  return axios
+    .delete(`http://localhost:8000/product/delete/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
     .then((response) => {
       return response;
     })
@@ -37,7 +40,7 @@ export const deleteProducts = (id: number) => {
 
 export const apiPostProducts = (data: any) => {
   return axios
-    .post("http://localhost:8000/api/v1/product", data, {
+    .post("http://localhost:8000/product/create", data, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {
@@ -55,9 +58,11 @@ export const apiPostImageProducts = (data: any) => {
     });
 };
 
-export const apiPostOneProducts = (data: any) => {
+export const updateProduct = (data: any) => {
   return axios
-    .put(`http://localhost:3000/product/${data.id}`, data)
+    .put(`http://localhost:8000/product/update/${data.id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
     .then((response) => {
       return response;
     });
@@ -84,14 +89,14 @@ export const apiPutOrder = (data: any) => {
     });
 };
 
-export const getAllCategory = async () => {
-  return await BaseAxios.get("http://localhost:8000/api/v1/categories")
-    .then((response) => {
-      return response.data.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-      // Trả về một giá trị mặc định nếu có lỗi
-      return [];
-    });
-};
+// export const getAllCategory = async () => {
+//   return await BaseAxios.get("http://localhost:8000/api/v1/categories")
+//     .then((response) => {
+//       return response.data.data;
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching data:", error);
+//       // Trả về một giá trị mặc định nếu có lỗi
+//       return [];
+//     });
+// };

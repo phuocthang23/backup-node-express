@@ -2,91 +2,114 @@
 
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
-import { apiPostOneProducts, getOneProducts } from "../../../../../api";
+import {
+  updateProduct,
+  getAllCategory,
+  getAllImage,
+  getOneProducts,
+  updateImage,
+} from "../../../../../api";
 import { ToastContainer, toast } from "react-toastify";
+// import category from "./../../../page/categories/category";
+import { useEffect } from "react";
+import { getAllSize } from "../../../../../api/size";
+import { useDispatch } from "react-redux";
 
 export default function Update(propsxx: any) {
   const [openModal, setOpenModal] = useState<string | undefined>();
   const [name, setName] = useState<any>("");
-  const [category, setCategory] = useState<any>("");
-  const [purchased, SetPurchased] = useState<any>("");
+  const [category, setCategory] = useState<any>([]);
   const [price, setPrice] = useState<any>("");
-  const [image1, setImage1] = useState<any>("");
-  const [image2, setImage2] = useState<any>("");
-  const [image3, setImage3] = useState<any>("");
+  const [selectedCategory, setSelectedCategory] = useState(category.id);
+  const [size, setSize] = useState<any>([]);
+  const [sizeChecked, setSizeChecked] = useState<any>([]);
+  const [image, setImage] = useState<any>([]);
+  const [warp, setWarp] = useState<any>([]);
   const [stock, setStock] = useState<any>("");
+  const [imageUpdate, setImageUpdate] = useState<any>();
   const [description, setDescription] = useState<any>("");
+
   const props = { openModal, setOpenModal };
+  const dipatch = useDispatch();
 
-  console.log(
-    name,
-    category,
-    purchased,
-    price,
-    stock,
-    image1,
-    image2,
-    image3,
-    description
-  );
+  useEffect(() => {
+    const callApi = async () => {
+      const response = await getAllCategory();
+      const allSize = await getAllSize();
+      setCategory(response);
+      setSize(allSize);
+    };
+    callApi();
+  }, []);
 
-  const handleDecline = async () => {
+  const handleUpdateProcut = async () => {
     // Tạo một object chứa tất cả các giá trị
     const data = {
-      name,
+      nameProduct: name,
+      categoryId: selectedCategory,
       price,
-      description,
-      purchased,
-      images: [image1, image2, image3],
-      capacity: [
-        {
-          id: 1,
-          name: "M",
-          price: 0,
-        },
-        {
-          id: 2,
-          name: "L",
-          price: 5000,
-        },
-      ],
-      category,
       stock,
-      feedback: [
-        {
-          comment: "",
-          rating: 0,
-        },
-      ],
-      totalRating: 0,
+      description,
+      // size: JSON.stringify(wrap),
     };
 
-    const response = await apiPostOneProducts({ ...data, id: propsxx.id });
-    console.log(response);
+    const response = await updateProduct({ ...data, id: propsxx.id });
+    // console.log(response);
 
     if (response.status === 200) {
-      propsxx.handleUpdate(response);
-      //   const abc = await getAllProducts();
-      //   console.log(abc);
+      // propsxx.handleUpdate();
+      dipatch({ type: "UPDATE" });
       props.setOpenModal(undefined);
       toast.success("thay đổi sản phẩm thành công");
     } else {
       toast.error("thay đổi sản phẩm thất bại");
     }
   };
+
+  //^----------------------------(check category)-----------------
+  const handleCategoryClick = (id) => {
+    setSelectedCategory(id);
+  };
+
+  //^--------------------------(size)---------------------------
+
+  const handleCheckboxChange = async (id: number) => {
+    const updateCheckSize = [...sizeChecked];
+
+    const index = updateCheckSize.indexOf(id);
+
+    if (index > -1) {
+      updateCheckSize.splice(index, 1);
+    } else {
+      updateCheckSize.push(id);
+    }
+
+    setSizeChecked(updateCheckSize);
+  };
+  //^ --------------------------(edit)-----------------------------
   const handleClick = async () => {
     props.setOpenModal("default");
     console.log(propsxx.id);
     const data = await getOneProducts(propsxx.id);
-    console.log(data);
-    setName(data.name);
-    setCategory(data.category);
-    setPrice(data.price);
-    setCategory(data.category);
-    setStock(data.stock);
-    setImage1(data.image1);
-    setImage2(data.image2);
-    setImage3(data.image3);
+    const allImage = await getAllImage(propsxx.id);
+    const getOneProduct = data?.data;
+    // console.log(getOneProduct);
+    setImage(allImage);
+    setName(getOneProduct.nameProduct);
+    setSelectedCategory(getOneProduct.categoryId);
+    setPrice(getOneProduct.price);
+    setStock(getOneProduct.stock);
+    setWarp(getOneProduct.imageProducts);
+    setSizeChecked(getOneProduct.sizes);
+    setDescription(getOneProduct.description);
+  };
+
+  //^ ---------------------(image)--------------------------
+  const handleUpdateImage = async (id: number) => {
+    const formData = new FormData();
+    formData.append("image", imageUpdate);
+    await updateImage(id, formData);
+    // dipatch({ type: "UPDATE" });
   };
   return (
     <>
@@ -122,14 +145,14 @@ export default function Update(propsxx: any) {
                   htmlFor="brand"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Brand
+                  Description
                 </label>
                 <input
                   type="text"
-                  name="category"
-                  id="category"
-                  value={purchased}
-                  onChange={(e) => SetPurchased(e.target.value)}
+                  name="description"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Product brand"
                   required
@@ -153,24 +176,7 @@ export default function Update(propsxx: any) {
                   required
                 />
               </div>
-              <div>
-                <label
-                  htmlFor="category"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Category
-                </label>
-                <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$2999"
-                  required
-                />
-              </div>
+
               <div>
                 <label
                   htmlFor="category"
@@ -180,7 +186,7 @@ export default function Update(propsxx: any) {
                 </label>
                 <input
                   type="text"
-                  name="price"
+                  name="category"
                   id="price"
                   value={stock}
                   onChange={(e) => setStock(e.target.value)}
@@ -194,60 +200,91 @@ export default function Update(propsxx: any) {
                   htmlFor="category"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  image 1
+                  Category
                 </label>
-                <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  value={image1}
-                  onChange={(e) => setImage1(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$2999"
-                  required
-                />
+                <div>
+                  {category?.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleCategoryClick(item.id)}
+                      className={`px-4 py-2 text-sm text-gray-600 rounded-lg ${
+                        item.id === selectedCategory
+                          ? "text-white bg-blue-500"
+                          : "text-black bg-white"
+                      }`}
+                    >
+                      {item.title}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div>
                 <label
                   htmlFor="category"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  image 2
+                  image
                 </label>
-                <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  value={image2}
-                  onChange={(e) => setImage2(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$2999"
-                  required
-                />
+                <div className="gap-6">
+                  {image?.map((item: any, index: number) => {
+                    return (
+                      <div key={index} className="flex flex-col mt-4">
+                        <div className="flex  gap-6">
+                          <img
+                            className="w-[70px] ml-2 border border-collapse"
+                            src={item?.src}
+                            alt=""
+                          />
+                          <button
+                            onClick={() => handleUpdateImage(item?.id)}
+                            className="btn btn-success hover:bg-green-300 transition duration-300 ease-in-out transform hover:scale-105 rounded-[10%] px-4 py-2 bg-cyan-50 text-cyan-700"
+                          >
+                            Update
+                          </button>
+                        </div>
+
+                        <input
+                          className="w-full ml-2 border border-collapse"
+                          type="file"
+                          onChange={(e) => setImageUpdate(e.target.files[0])}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
               <div>
                 <label
                   htmlFor="category"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  image 3
+                  Size
                 </label>
-                <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  value={image3}
-                  onChange={(e) => setImage3(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$2999"
-                  required
-                />
+                <div className="flex items-center mb-4">
+                  {size?.map((item: any) => {
+                    const sizeSelected = sizeChecked?.some(
+                      (selectedItem: any) => selectedItem.id === item.id
+                    );
+                    return (
+                      <div key={item.id} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          value={item.id}
+                          checked={sizeSelected}
+                          onChange={() => handleCheckboxChange(item.id)} // Thêm sự kiện onChange
+                          className="mr-2"
+                        />
+                        <span className="mr-2">{item.size}</span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleDecline}>I accept</Button>
+          <Button onClick={handleUpdateProcut}>I accept</Button>
           <Button color="gray" onClick={() => props.setOpenModal(undefined)}>
             Decline
           </Button>

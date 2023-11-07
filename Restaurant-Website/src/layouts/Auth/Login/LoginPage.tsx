@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 // import FormInput from "../components/FormInput";
 // import CallDataUser from "../components/CallData";
 import { loginUser } from "../../../api";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -18,6 +19,11 @@ const LoginForm = () => {
   });
 
   const [serverError, setServerError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,8 +50,16 @@ const LoginForm = () => {
 
       console.log(response);
 
-      if (response.status === 200) {
-        const accessToken = response.data.accessToken;
+      if ((response as any).data?.success === false) {
+        setServerError("mật khẩu và email không đúng");
+        return;
+      }
+
+      if ((response as any).data.data?.status === 1) {
+        setServerError("Tài khoản đã bị khóa");
+        return;
+      } else {
+        const accessToken = response.data.access_token;
         localStorage.setItem("Auth", accessToken);
 
         if (response.data.data.roleId === 1) {
@@ -53,8 +67,6 @@ const LoginForm = () => {
         } else {
           navigate("/");
         }
-      } else {
-        setServerError(response.error);
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -119,7 +131,7 @@ const LoginForm = () => {
                     Your Password
                   </label>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={user.password}
@@ -128,12 +140,29 @@ const LoginForm = () => {
                       error.password ? "border-red-500" : ""
                     }`}
                   />
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    {showPassword ? (
+                      <FaEyeSlash
+                        onClick={togglePasswordVisibility}
+                        className="text-gray-400 cursor-pointer"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={togglePasswordVisibility}
+                        className="text-gray-400 cursor-pointer"
+                      />
+                    )}
+                  </div>
                   {error.password && (
                     <p className="mt-2 text-xs text-red-500">
                       {error.password}
                     </p>
                   )}
-                  {serverError && <p>{serverError}</p>}
+                  {serverError && (
+                    <div className="bg-[#FFFF99] border border-yellow-600 text-yellow-900 px-4 py-2 mt-4 text-center text-[15px]">
+                      {serverError}
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-start">
