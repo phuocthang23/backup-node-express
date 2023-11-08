@@ -15,6 +15,7 @@ import User from "../layouts/Admin/page/User/User";
 import OderHistory from "../layouts/User/pages/orderHistory/OderHistory";
 import Category from "../layouts/Admin/page/categories/category";
 import Size from "../layouts/Admin/page/Size/Size";
+// import Cart from "../layouts/User/pages/Cart/Cart";
 
 const AppRoute: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const AppRoute: React.FC = () => {
         <Route index element={<HomePage />} />
         <Route path="product/:id" element={<ProductDetailPage />} />
         <Route path="cart" element={<CartPage />} />
+        {/* <Route path="cartShop" element={<Cart />} /> */}
         <Route path="history" element={<OderHistory />} />
       </Route>
       {/* Layout Admin */}

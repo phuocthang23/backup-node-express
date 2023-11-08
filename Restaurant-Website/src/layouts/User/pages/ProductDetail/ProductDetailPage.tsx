@@ -26,8 +26,6 @@ const ProductDetailPage: React.FC = () => {
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const loginData: any = localStorage.getItem("Auth");
-  console.log(loginData);
 
   //^---------------------------------------------------------------------
   const handleAddToCart = async () => {

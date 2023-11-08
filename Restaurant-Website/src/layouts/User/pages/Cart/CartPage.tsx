@@ -24,7 +24,7 @@ const CartPage: React.FC = () => {
     data();
   }, [loading]);
 
-  console.log(cartItem);
+  console.log(cartItem?.data);
 
   //* --------------------------------------(delete) --------------------------------------
 
@@ -42,17 +42,14 @@ const CartPage: React.FC = () => {
   const calculateTotal = (cartItems) => {
     let total = 0;
     cartItems.forEach((item) => {
-      total +=
-        item.sizeProduct.product.price *
-        item.sizeProduct.size.priceSize *
-        item.quantity;
+      total += item.product.price * item.size.priceSize * item.quantity;
     });
     return total;
   };
 
   useEffect(() => {
     if (cartItem) {
-      const cartItems = cartItem.data.data;
+      const cartItems = cartItem.data;
       const total = calculateTotal(cartItems);
       setTotal(total);
     }
@@ -66,12 +63,9 @@ const CartPage: React.FC = () => {
     ship = 0;
   }
 
-  const totalAmount = cartItem?.data?.data.reduce(
+  const totalAmount = cartItem?.data.reduce(
     (total, item) =>
-      total +
-      item.sizeProduct?.product?.price *
-        item.sizeProduct?.size?.priceSize *
-        item.quantity,
+      total + item.product?.price * item.size?.priceSize * item.quantity,
     0
   );
 
@@ -171,9 +165,9 @@ const CartPage: React.FC = () => {
               </div>
             </div>
             <div className="py-4 mb-8 border-t border-b border-gray-200 dark:border-gray-700">
-              {cartItem?.data?.data.map((item: any) => (
+              {cartItem?.data.map((item: any, index: number) => (
                 <div
-                  key={item.index}
+                  key={index}
                   className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8"
                 >
                   <div className="w-full px-4 mb-6 md:w-4/6 lg:w-4/12 md:mb-0">
@@ -181,7 +175,7 @@ const CartPage: React.FC = () => {
                       <div className="w-full px-4 mb-3 md:w-1/3">
                         <div className="  md:h-24 md:w-24">
                           <img
-                            src={item.sizeProduct?.product?.image[0]?.src}
+                            src={item.product?.imageProducts[0]?.src}
                             alt=""
                             className="object-cover w-full h-full"
                           />
@@ -189,10 +183,10 @@ const CartPage: React.FC = () => {
                       </div>
                       <div className="w-2/6 px-4">
                         <h2 className="mb-2 text-xl font-bold dark:text-gray-400">
-                          {item.sizeProduct?.product?.nameProduct}
+                          {item.product?.nameProduct}
                         </h2>
                         <p className="text-gray-500 dark:text-gray-400 ">
-                          Size:{""} {item.sizeProduct?.size.size}
+                          Size:{""} {item.size.size}
                         </p>
                       </div>
                     </div>
@@ -200,7 +194,7 @@ const CartPage: React.FC = () => {
                   <div className="hidden px-4 lg:block lg:w-2/12">
                     <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
                       {/* {item?.price !== undefined && item?.item.toLocaleString()} */}
-                      {item.sizeProduct?.product?.price.toLocaleString()} VND
+                      {item.product?.price.toLocaleString()} VND
                     </p>
                     <span className="text-xs text-gray-500 line-through dark:text-gray-400">
                       {/* $1500 */}
@@ -219,15 +213,15 @@ const CartPage: React.FC = () => {
                   <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 ">
                     <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
                       {(
-                        item.sizeProduct?.product?.price *
-                        item.sizeProduct?.size?.priceSize *
+                        item.product?.price *
+                        item.size?.priceSize *
                         item.quantity
                       ).toLocaleString()}{" "}
                       VND
                     </p>
                   </div>
                   <div className="w-auto px-4  md:w-1/6 lg:w-2/12 ">
-                    <p className="text-lg font-bold text-blue-500 dark:text-gray-400 ">
+                    <p className="text-lg font-bold text-blue-500 dark:text-gray-400 cursor-pointer hover:text-red-500 ">
                       <FaRegTrashCan
                         className="float-right"
                         onClick={() => handldeDelete(item.id)}
@@ -253,7 +247,7 @@ const CartPage: React.FC = () => {
                   Apply
                 </button>
               </div>
-              <div className="max-w-[500px] mx-auto p-6">
+              <div className="max-w-[500px] mx-auto p-6 bg-slate-400">
                 <div className="mb-4 flex  items-center gap-4">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2"
