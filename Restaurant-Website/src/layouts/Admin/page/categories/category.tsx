@@ -81,7 +81,7 @@ const category = () => {
     <div>
       <div className="flex justify-between justify-center items-center ">
         <div>
-          <HearderAdmin title="Category" handleSearch={() => {}} />
+          <HearderAdmin title="Category" slug={""} />
         </div>
 
         <div className="mt-10 mr-10">

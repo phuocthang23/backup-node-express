@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Card,
   CardBody,
@@ -5,26 +6,41 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
+import { useEffect, useState } from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { BiMoneyWithdraw, BiSolidUser } from "react-icons/bi";
 import { BsBoxSeam } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { getAllProducts, getAllUsersServer } from "../../../../api";
 
-const CardUser = [
-  {
-    title: "Total User",
-    number: 25,
-  },
-  {
-    title: "Total Money",
-    number: 25,
-  },
-  {
-    title: "Total Product",
-    number: 25,
-  },
-];
 export function CardTop() {
+  const [user, setUser] = useState<any>([]);
+  const [product, setProduct] = useState<any>([]);
+
+  useEffect(() => {
+    const callApi = async () => {
+      const response = await getAllUsersServer();
+      const allProduct = await getAllProducts(null);
+      setUser(response);
+      setProduct(allProduct);
+    };
+    callApi();
+  }, []);
+
+  const CardUser = [
+    {
+      title: "Total User",
+      number: user.length,
+    },
+    {
+      title: "Total Money",
+      number: 25,
+    },
+    {
+      title: "Total Product",
+      number: product.length,
+    },
+  ];
   return (
     <div className="top flex flex-grow gap-10">
       {CardUser.map((user, index) => (

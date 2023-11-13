@@ -1,25 +1,61 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 // import { Product } from "../../../../interface/interface";
-import { getAllProducts } from "../../../../api";
+import { getAllCategory, getAllProducts } from "../../../../api";
 import { Link } from "react-router-dom";
 const Menu = () => {
   const [data, setData] = useState<any>();
-
+  const [category, setCategory] = useState<any>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  // const [activeButton, setActiveButton] = useState(0);
   useEffect(() => {
     const data = async () => {
       const userAll = await getAllProducts(null);
+      const Category = await getAllCategory();
       setData(userAll);
+      setCategory(Category);
     };
     data();
   }, []);
-  console.log(data, "test");
 
+  const handleCategory = async (id: any) => {
+    if (selectedCategoryId === id) {
+      setData(data);
+      setSelectedCategoryId(null);
+    }
+    const userAll = await getAllProducts(null);
+    const filter = userAll.filter((item) => item.categoryId === id);
+    setData(filter.length === 0 ? data : filter);
+  };
+
+  const allProduct = async () => {
+    setData(await getAllProducts(null));
+  };
   return (
     <div>
       <div className="max-w-[1400px] mx-auto p-8">
         <h1 className="text-4xl font-bold mb-4 px-4 bg-">Menu</h1>
         <div className="border-b-4 border-solid border-yellow-300"></div>
+        <div className="flex gap-5 mx-7">
+          <button
+            onClick={allProduct}
+            className="py-4 bg-gray-500 text-white mt-3 px-20 cursor-pointer"
+          >
+            ALL Product
+          </button>
+          {category?.map((item: any) => {
+            return (
+              <div key={item.id}>
+                <button
+                  onClick={() => handleCategory(item.id)}
+                  className=" py-4 bg-gray-500 text-white mt-3 px-20  cursor-pointer"
+                >
+                  {item.title}
+                </button>
+              </div>
+            );
+          })}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {/* Card sản */}
           {data?.map((item) => {
@@ -56,7 +92,9 @@ const Menu = () => {
                           item?.price.toLocaleString()}{" "}
                         VND
                       </p>
-                      <p className="text-gray-700">{item?.description}</p>
+                      <p className="text-gray-700 truncate">
+                        {item?.description}
+                      </p>
                     </div>
                     <div className="flex p-4 border-t border-gray-300 text-gray-700">
                       <div className="flex-1 inline-flex items-center">
@@ -69,7 +107,7 @@ const Menu = () => {
                       <div className="flex-1 inline-flex items-center">
                         <p>
                           <span className="text-gray-900 font-bold">
-                            {item.stock}
+                            {item.count}
                           </span>{" "}
                           Đã Bán
                         </p>

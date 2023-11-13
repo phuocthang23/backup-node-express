@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Table } from "flowbite-react";
+import { Avatar, Button, Table } from "flowbite-react";
 import HearderAdmin from "../../components/layout/headerAdmin/HearderAdmin";
 import { useEffect, useState } from "react";
 // import axios from "axios";
 import { blockUsersServer, getAllUsersServer } from "../../../../api";
 import { ToastContainer, toast } from "react-toastify";
+import Pagination from "../../components/Pagination/Pagination";
+import Export from "../../components/export/Export";
 // import { Avatar } from "flowbite-react";
 const User: React.FC = () => {
   //* biến chưa data
@@ -12,12 +14,6 @@ const User: React.FC = () => {
   const [data1, setData1] = useState<any>();
   const [loading, setLoading] = useState(true);
 
-  const handleSearch = async () => {
-    // const params = data1.length > 0 ? { name: data1 } : null;
-    // console.log(params);
-    // const bb = await getAllUsersServer(params);
-    // setData1(bb);
-  };
   const handleBlock = async (id: number) => {
     const block = await blockUsersServer(id);
     setLoading(!loading);
@@ -35,16 +31,33 @@ const User: React.FC = () => {
 
   useEffect(() => {
     const data1 = async () => {
-      const userAll = await getAllUsersServer();
-
+      const userAll = await getAllUsersServer(null);
       setData1(userAll);
     };
     data1();
   }, [loading]);
 
+  //*----------------(search)--------------
+
+  const handleGetData = async (data: any) => {
+    const userAll = await getAllUsersServer(null);
+    setData1(data || userAll);
+  };
+
+  // *-----------------------------(pagination)-----------------------------
+
+  const [users, setUsers] = useState<any>();
+
+  const handlePage = (pagination: any) => {
+    setUsers(pagination);
+  };
+
   return (
     <div>
-      <HearderAdmin title="User" handleSearch={handleSearch} />
+      <HearderAdmin title="User" slug={"USERS"} handleGetData={handleGetData} />
+      <div className="mt-4 mx-3">
+        <Export data={data1} slug={"users"} />
+      </div>
       <div>
         <Table hoverable>
           <Table.Head>
@@ -58,7 +71,7 @@ const User: React.FC = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {data1?.map((row: any) => {
+            {users?.map((row: any) => {
               return (
                 <Table.Row
                   key={row.id}
@@ -68,11 +81,9 @@ const User: React.FC = () => {
                     {row.firstName}
                   </Table.Cell>
                   <Table.Cell>{row.email}</Table.Cell>
-                  <Table.Cell className="truncate max-w-[200px]">
-                    {row.avatar}
+                  <Table.Cell className="truncate w-[100px]">
+                    <Avatar img={row.avatar} alt="avatar of Jese" rounded />
                   </Table.Cell>
-                  {/* <Table.Cell>{row?.address[0]?.phoneNumber}</Table.Cell> */}
-                  {/* <Table.Cell>{row?.address[0]?.address}</Table.Cell> */}
                   <Table.Cell>{row.roleId === 1 ? "Admin" : "User"}</Table.Cell>
                   <Table.Cell>
                     <span
@@ -89,7 +100,7 @@ const User: React.FC = () => {
                         className="font-medium bg-cyan-600 hover:bg-cyan-300"
                         onClick={() => handleBlock(row.id)}
                       >
-                        Block
+                        {row.status === 0 ? "Block" : "Unblock"}
                       </Button>
                     )}
                   </Table.Cell>
@@ -99,6 +110,7 @@ const User: React.FC = () => {
           </Table.Body>
         </Table>
       </div>
+      <Pagination data={data1} handlePage={handlePage} />
       <ToastContainer />
     </div>
   );

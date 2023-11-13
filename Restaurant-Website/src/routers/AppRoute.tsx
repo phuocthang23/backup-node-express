@@ -15,7 +15,11 @@ import User from "../layouts/Admin/page/User/User";
 import OderHistory from "../layouts/User/pages/orderHistory/OderHistory";
 import Category from "../layouts/Admin/page/categories/category";
 import Size from "../layouts/Admin/page/Size/Size";
+import Order from "../layouts/Admin/page/order/Order";
+import Profile from "../layouts/User/pages/profile/Profile";
 // import Cart from "../layouts/User/pages/Cart/Cart";
+import WishList from "./../layouts/User/pages/Cart/WishList";
+import LoginSuccsess from "../layouts/Auth/loginGG/loginGG";
 
 const AppRoute: React.FC = () => {
   return (
@@ -24,14 +28,16 @@ const AppRoute: React.FC = () => {
       <Route path="/auth" element={<Auth />}>
         <Route index element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="verifyGoogle/:token/v1" element={<LoginSuccsess />} />
       </Route>
       {/* Layout User */}
       <Route path="/" element={<UserLayout />}>
         <Route index element={<HomePage />} />
         <Route path="product/:id" element={<ProductDetailPage />} />
         <Route path="cart" element={<CartPage />} />
-        {/* <Route path="cartShop" element={<Cart />} /> */}
+        <Route path="wishlist" element={<WishList />} />
         <Route path="history" element={<OderHistory />} />
+        <Route path="profile" element={<Profile />} />
       </Route>
       {/* Layout Admin */}
       <Route path="/admin" element={<AdminLayout />}>
@@ -40,6 +46,7 @@ const AppRoute: React.FC = () => {
         <Route path="user" element={<User />} />
         <Route path="category" element={<Category />} />
         <Route path="size" element={<Size />} />
+        <Route path="orderManager" element={<Order />} />
       </Route>
       {/* Not Found */}
       <Route path="*" element={<NotFound />} />

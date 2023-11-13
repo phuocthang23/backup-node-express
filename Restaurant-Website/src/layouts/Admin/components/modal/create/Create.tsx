@@ -7,6 +7,8 @@ import { apiPostProducts, getAllCategory } from "../../../../../api";
 import { ToastContainer, toast } from "react-toastify";
 import { getAllSize } from "../../../../../api/size";
 import { useDispatch } from "react-redux";
+import Loading from "../../loading";
+// import Loading from "../../loading";
 
 export default function Create(propsxx: any) {
   const [openModal, setOpenModal] = useState<string | undefined>();
@@ -18,7 +20,10 @@ export default function Create(propsxx: any) {
   const [stock, setStock] = useState<any>("");
   const [description, setDescription] = useState<any>("");
   const [size, setSize] = useState<any>([]);
+  const [spinner, setSpinner] = useState(true);
   const [wrap, setWrap] = useState<any>([]);
+  // const [spinner, setSpinner] = useState<boolean>(false);
+
   const props = { openModal, setOpenModal };
   const dipatch = useDispatch();
   useEffect(() => {
@@ -27,6 +32,7 @@ export default function Create(propsxx: any) {
       const allSize = await getAllSize();
       setDataCategory(response);
       setSize(allSize);
+      setSpinner(false);
     };
     category();
   }, []);
@@ -102,6 +108,7 @@ export default function Create(propsxx: any) {
         onClose={() => props.setOpenModal(undefined)}
       >
         <Modal.Header>Add Product</Modal.Header>
+        {spinner ? <Loading /> : ""}
         <Modal.Body>
           <form action="#">
             <div className="grid gap-4 mb-4 sm:grid-cols-2">
@@ -182,13 +189,17 @@ export default function Create(propsxx: any) {
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {dataCategory?.map((item: any) => (
-                    <Button
-                      onClick={() => setCategory(item.id)}
+                    <button
                       key={item.id}
-                      className="w-auto"
+                      onClick={() => setCategory(item.id)}
+                      className={`px-4 py-2 text-sm text-gray-600 rounded-lg ${
+                        item.id === category
+                          ? "text-white bg-blue-500"
+                          : "text-black bg-white"
+                      }`}
                     >
                       {item.title}
-                    </Button>
+                    </button>
                   ))}
                 </div>
               </div>

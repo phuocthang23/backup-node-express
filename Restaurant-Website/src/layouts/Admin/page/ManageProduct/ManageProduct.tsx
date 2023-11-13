@@ -8,12 +8,17 @@ import Create from "../../components/modal/create/Create";
 import { ToastContainer, toast } from "react-toastify";
 import Update from "../../components/modal/update/Update";
 import { useSelector } from "react-redux";
+import Pagination from "../../components/Pagination/Pagination";
+import Export from "../../components/export/Export";
 
 const ManageProduct = () => {
+  const [products, setProducts] = useState<any>();
   const [data, setData] = useState<any>();
-  const [find, setFind] = useState("");
   const [loading, setLoading] = useState(false);
-  const updateUI = useSelector((state) => state.updateReducer);
+
+  const updateUI = useSelector((state: any) => {
+    return state.updateReducer;
+  });
   useEffect(() => {
     const data = async () => {
       const response = await getAllProducts(null);
@@ -21,6 +26,7 @@ const ManageProduct = () => {
     };
     data();
   }, [updateUI, loading]);
+
   //^ --------------------------------------------------(delete)----------------------------------
   const handleDelete = (productId: number) => {
     // Gọi API hoặc thực hiện xóa sản phẩm tại đây
@@ -40,25 +46,35 @@ const ManageProduct = () => {
   const handleCreate = async (data: any) => {
     if (data) {
       const bb = await getAllProducts(null);
-
       bb;
       setLoading(!loading);
     }
   };
-  const handleSearch = async () => {
-    // const params = data.length > 0 ? { name: data } : null;
-    const search = await getAllProducts(null);
-    setFind(search);
+
+  // *--------------------------(pagination)----------------
+
+  const handlePage = (pagination: any) => {
+    setProducts(pagination);
   };
-  // console.log(find, "search");
+  const handleGetData = async (data: any) => {
+    const response = await getAllProducts(null);
+    setData(data || response);
+  };
 
   return (
     <div>
       <div className="flex items-center justify-between ">
-        <HearderAdmin title="Product" handleSearch={handleSearch} />
+        <HearderAdmin
+          slug={"PRODUCT"}
+          title="Product"
+          handleGetData={handleGetData}
+        />
         <div className="mt-4">
           <Create handleUpdate={handleCreate} />
         </div>
+      </div>
+      <div className="mt-4 mx-3">
+        <Export data={data} slug={"products"} />
       </div>
       <Table hoverable>
         <Table.Head>
@@ -72,7 +88,7 @@ const ManageProduct = () => {
           <Table.HeadCell>Action</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {data?.map((item: any) => {
+          {products?.map((item: any) => {
             return (
               <Table.Row
                 key={item.id}
@@ -96,7 +112,11 @@ const ManageProduct = () => {
                 </Table.Cell>
                 <Table.Cell>{item.stock}</Table.Cell>
                 <Table.Cell>{item.category.title}</Table.Cell>
-                <Table.Cell>{item.description}</Table.Cell>
+                <Table.Cell>
+                  {item.description.length > 20
+                    ? `${item.description.substring(0, 20)}...`
+                    : item.description}
+                </Table.Cell>
 
                 <Table.Cell>
                   <select>
@@ -111,8 +131,8 @@ const ManageProduct = () => {
 
                 <Table.Cell>{item.price}</Table.Cell>
                 <Table.Cell className="flex">
-                  <Update id={item.id} />
-                  <a className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                  <Update id={item.id} className="bg-green-300" />
+                  <a className="font-medium text-cyan-600 hover:underline dark:text-gray-500">
                     <Button
                       className="font-medium bg-red-600 mx-6"
                       onClick={() => {
@@ -128,6 +148,7 @@ const ManageProduct = () => {
           })}
         </Table.Body>
       </Table>
+      <Pagination data={data} handlePage={handlePage} />
       <ToastContainer />
     </div>
   );

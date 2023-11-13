@@ -1,25 +1,31 @@
-// import { useEffect, useState } from "react";
-// import { Product } from "../../../../interface/interface";
-// import { getAllProducts } from "../../../../api";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import { getAllProducts } from "../../../../api";
 
-// const SortSeller = () => {
-//   const [data, setData] = useState<Product[]>([]);
-//   //* fetch data
-//   useEffect(() => {
-//     //* gọi lại data
-//     const data = async () => {
-//       const userAll = await getAllProducts();
-//       setData(userAll);
-//     };
-//     data();
-//   }, []);
+const SortSeller = () => {
+  const [data, setData] = useState<any>([]);
 
-//   const dataCopy = [...data];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const products = await getAllProducts(null);
+        setData(products);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-//   dataCopy.sort((a, b) => b.purchased - a.purchased);
+    fetchData();
+  }, []);
 
-//   // Lấy 5 phần tử đầu tiên sau khi đã sắp xếp
-//   return dataCopy.slice(0, 4);
-// };
+  // Sắp xếp giảm dần theo giá trị count
+  const sortedData = [...data].sort((a, b) => b.count - a.count);
 
-// export default SortSeller;
+  // Lấy 5 sản phẩm có count lớn nhất
+  const top5Products = sortedData.slice(0, 5);
+  console.log(top5Products);
+
+  return top5Products;
+};
+
+export default SortSeller;

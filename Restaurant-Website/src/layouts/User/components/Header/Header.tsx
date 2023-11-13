@@ -3,31 +3,38 @@ import React, { useEffect, useState } from "react";
 import logo from "../../../../../public/assets/images/Thiết kế chưa có tên.png";
 import "flowbite";
 import { GiHamburgerMenu } from "react-icons/gi";
-import SearchBar from "../Search/SearchBar";
+// import SearchBar from "../Search/SearchBar";
 import { BsCartPlus } from "react-icons/bs";
-import { Avatar } from "flowbite-react";
+import { Avatar, Dropdown } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
-import { getOneUser } from "../../../../api";
+import { getAllCartByUser, getOneUser } from "../../../../api";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "./index.css";
+import SearchBar from "../Search/SearchBar";
 const Header = () => {
   const navigate = useNavigate();
+
+  const update = useSelector((state: any) => state.updateReducer);
+  const [cart, setCart] = useState<any>([]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const loginUser = localStorage.getItem("Auth");
 
   const [user, setUser] = useState<any>("");
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loginUser = localStorage.getItem("Auth");
-
     if (loginUser) {
       const fetchData = async () => {
-        const response = await getOneUser(loginUser);
+        const response = await getOneUser();
+        const cart = await getAllCartByUser();
+        setCart((cart as any).data);
         setUser((response as any).data);
       };
       fetchData();
     }
-  }, []);
-  console.log(user);
+  }, [update]);
 
   const handleLogout = () => {
     localStorage.removeItem("Auth");
@@ -45,7 +52,7 @@ const Header = () => {
           </span>
         </Link>
         {/* seach bar */}
-        <div className="w-1/3">
+        <div className="w-1/3  input-item-search mt-2">
           <SearchBar />
         </div>
         {/* responsive navbar */}
@@ -79,14 +86,6 @@ const Header = () => {
                 About
               </a>
             </li>
-            <li>
-              <a
-                href="#"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Services
-              </a>
-            </li>
 
             <li>
               <a
@@ -96,16 +95,7 @@ const Header = () => {
                 Contact
               </a>
             </li>
-            {loginUser ? (
-              <li>
-                <a
-                  onClick={handleLogout}
-                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  logout
-                </a>
-              </li>
-            ) : (
+            {loginUser ? null : (
               <li>
                 <Link
                   to={"/auth"}
@@ -117,22 +107,62 @@ const Header = () => {
             )}
           </ul>
         </div>
-        <div className="relative ">
-          <Link to={"/cart"}>
-            <BsCartPlus className="w-7 h-7 cursor-pointer" />
-          </Link>
-          <div className="w-7 h-7 rounded-full bg-orange-400 absolute top-[-15px] left-[10px]">
-            <p className="text-center">0</p>
+        <div className="flex items-center">
+          <div className="relative mx-7">
+            <Link to={"/cart"}>
+              <BsCartPlus className="w-7 h-7 cursor-pointer" />
+            </Link>
+            <div className="w-7 h-7 rounded-full bg-orange-400 absolute top-[-15px] left-[10px]">
+              {loginUser ? (
+                <p className="text-center">{cart.length}</p>
+              ) : (
+                <p className="text-center">0</p>
+              )}
+            </div>
           </div>
-        </div>
-        {loginUser ? <Avatar img={user?.avatar} rounded /> : <Avatar rounded />}
-        <span>
           {loginUser ? (
-            <span>{user?.firstName + " " + user?.lastName}</span>
+            <Dropdown
+              label={<Avatar img={user?.avatar} rounded />}
+              arrowIcon={false}
+              inline
+            >
+              <Dropdown.Header>
+                <span className="block text-sm">{user.email}</span>
+                <span className="block truncate text-sm font-medium">
+                  {user?.firstName + " " + user?.lastName === undefined
+                    ? ""
+                    : user?.firstName + " " + user?.lastName}
+                </span>
+              </Dropdown.Header>
+              <Dropdown.Item>
+                <NavLink to={"/profile"}>Profile</NavLink>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <NavLink to={"/history"}>
+                  {" "}
+                  <a className="hover:text-blue-500"> History</a>{" "}
+                </NavLink>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                {" "}
+                <NavLink to={"/wishlist"}>WishList</NavLink>
+              </Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
+            </Dropdown>
           ) : (
-            <span>Guest</span>
+            <Avatar rounded className="mx-2" />
           )}
-        </span>
+          <span className="mx-3 ">
+            {loginUser ? (
+              <span>{user?.firstName + " " + user?.lastName}</span>
+            ) : (
+              <span>Guest</span>
+            )}
+          </span>
+        </div>
+
+        {/* <span></span> */}
       </div>
     </nav>
   );

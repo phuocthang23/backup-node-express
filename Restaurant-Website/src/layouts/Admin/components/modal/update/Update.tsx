@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useEffect } from "react";
 import { getAllSize } from "../../../../../api/size";
 import { useDispatch } from "react-redux";
+import Loading from "../../loading";
 
 export default function Update(propsxx: any) {
   const [openModal, setOpenModal] = useState<string | undefined>();
@@ -24,11 +25,11 @@ export default function Update(propsxx: any) {
   const [size, setSize] = useState<any>([]);
   const [sizeChecked, setSizeChecked] = useState<any>([]);
   const [image, setImage] = useState<any>([]);
-  const [warp, setWarp] = useState<any>([]);
+  // const [warp, setWarp] = useState<any>([]);
   const [stock, setStock] = useState<any>("");
   const [imageUpdate, setImageUpdate] = useState<any>();
+  const [loading, setLoading] = useState<any>(true);
   const [description, setDescription] = useState<any>("");
-
   const props = { openModal, setOpenModal };
   const dipatch = useDispatch();
 
@@ -38,11 +39,13 @@ export default function Update(propsxx: any) {
       const allSize = await getAllSize();
       setCategory(response);
       setSize(allSize);
+      setLoading(false);
     };
     callApi();
   }, []);
 
   const handleUpdateProcut = async () => {
+    setLoading(true);
     // Tạo một object chứa tất cả các giá trị
     const data = {
       nameProduct: name,
@@ -50,7 +53,6 @@ export default function Update(propsxx: any) {
       price,
       stock,
       description,
-      // size: JSON.stringify(wrap),
     };
 
     const response = await updateProduct({ ...data, id: propsxx.id });
@@ -60,8 +62,12 @@ export default function Update(propsxx: any) {
       // propsxx.handleUpdate();
       dipatch({ type: "UPDATE" });
       props.setOpenModal(undefined);
+      setLoading(false);
+
       toast.success("thay đổi sản phẩm thành công");
     } else {
+      setLoading(false);
+
       toast.error("thay đổi sản phẩm thất bại");
     }
   };
@@ -99,25 +105,34 @@ export default function Update(propsxx: any) {
     setSelectedCategory(getOneProduct.categoryId);
     setPrice(getOneProduct.price);
     setStock(getOneProduct.stock);
-    setWarp(getOneProduct.imageProducts);
+    // setWarp(getOneProduct.imageProducts); //& lấy ảnh được đưa lên
     setSizeChecked(getOneProduct.sizes);
     setDescription(getOneProduct.description);
   };
 
   //^ ---------------------(image)--------------------------
-  const handleUpdateImage = async (id: number) => {
+  const handleUpdateImage = async (id: number, e: React.FormEvent) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("image", imageUpdate);
-    await updateImage(id, formData);
-    // dipatch({ type: "UPDATE" });
+    const response = await updateImage(id, formData);
+
+    if (response.status === 200) {
+      toast.success("thay đổi ảnh cho sản phẩm thể bắt đầu");
+    } else {
+      toast.error("thay đIntializedi ảnh cho sản phẩm th misrepresented");
+    }
   };
   return (
     <>
+      {loading ? <Loading /> : ""}
+
       <Button onClick={handleClick}>Edit</Button>
       <Modal
         show={props.openModal === "default"}
         onClose={() => props.setOpenModal(undefined)}
       >
+        {/* thêm spinner */}
         <Modal.Header>Edit Product</Modal.Header>
         <Modal.Body>
           <form action="#">
@@ -236,7 +251,7 @@ export default function Update(propsxx: any) {
                             alt=""
                           />
                           <button
-                            onClick={() => handleUpdateImage(item?.id)}
+                            onClick={(e) => handleUpdateImage(item?.id, e)}
                             className="btn btn-success hover:bg-green-300 transition duration-300 ease-in-out transform hover:scale-105 rounded-[10%] px-4 py-2 bg-cyan-50 text-cyan-700"
                           >
                             Update

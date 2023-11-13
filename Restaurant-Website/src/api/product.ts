@@ -88,15 +88,3 @@ export const apiPutOrder = (data: any) => {
       return [];
     });
 };
-
-// export const getAllCategory = async () => {
-//   return await BaseAxios.get("http://localhost:8000/api/v1/categories")
-//     .then((response) => {
-//       return response.data.data;
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching data:", error);
-//       // Trả về một giá trị mặc định nếu có lỗi
-//       return [];
-//     });
-// };

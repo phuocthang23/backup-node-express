@@ -1,0 +1,17 @@
+.form-search-small {
+    border: 1px solid rgb(220, 220, 220);
+    box-shadow: 5px 5px 10px #cde8f0;
+    transition: 1s;
+    font-size: 13px;
+    cursor: pointer;
+    z-index: 99;
+    border-radius: 3px;
+    top: 60px;
+    left: 0px;
+    position: absolute;
+    width: 420px;  
+    max-height: 420px ;
+    overflow: hidden;
+    background-color: #ffffff;
+    height: auto;
+  }

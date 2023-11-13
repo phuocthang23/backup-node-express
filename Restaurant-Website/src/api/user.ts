@@ -6,11 +6,9 @@ import { data } from "autoprefixer";
 
 const token = localStorage.getItem("Auth");
 
-const user = JSON.stringify(token);
-console.log(user);
+// const user = JSON.stringify(token);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getOneUser = (token) => {
+export const getOneUser = () => {
   return axios
     .get(`http://localhost:8000/user/userdetail`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -52,12 +50,13 @@ export const getAllSizeProduct = (params: any) => {
 //     });
 // };
 
-export const getAllUsersServer = () => {
+export const getAllUsersServer = (data: any) => {
   return axios
     .get("http://localhost:8000/user", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params: data,
     })
     .then((response) => {
       return response.data;
@@ -83,5 +82,18 @@ export const blockUsersServer = (id) => {
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
+    });
+};
+
+export const searchUser = async () => {
+  return await axios
+    .get("http://localhost:8000/user/search")
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      // Trả về một giá trị mặc định nếu có lỗi
+      return [];
     });
 };

@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 // import CallDataUser from "../components/CallData";
 import { loginUser } from "../../../api";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import ButtonGoogle from "../buttonGoogle";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -28,14 +29,14 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const regex = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/i;
+    // const regex = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/i;
 
-    if (!regex.test(user.email)) {
-      setError({
-        email: "Vui lòng nhập đúng địa chỉ email.",
-        password: "",
-      });
-    }
+    // if (!regex.test(user.email)) {
+    //   setError({
+    //     email: "Vui lòng nhập đúng định dạng email.",
+    //     password: error.password,
+    //   });
+    // }
 
     if (user.email.trim() === "" || user.password.trim() === "") {
       setError({
@@ -48,8 +49,6 @@ const LoginForm = () => {
     try {
       const response: any = await loginUser(user);
 
-      console.log(response);
-
       if ((response as any).data?.success === false) {
         setServerError("mật khẩu và email không đúng");
         return;
@@ -61,10 +60,10 @@ const LoginForm = () => {
       } else {
         const accessToken = response.data.access_token;
         localStorage.setItem("Auth", accessToken);
-
         if (response.data.data.roleId === 1) {
           navigate("/admin");
         } else {
+          // window.location.reload();
           navigate("/");
         }
       }
@@ -74,6 +73,13 @@ const LoginForm = () => {
   };
 
   const handleChange = (e) => {
+    setError({
+      ...error,
+      [e.target.name]: "",
+    });
+
+    setServerError("");
+
     setUser({
       ...user,
       [e.target.name]: e.target.value,
@@ -202,6 +208,7 @@ const LoginForm = () => {
                     Sign up
                   </Link>
                 </p>
+                <ButtonGoogle />
               </form>
             </div>
           </div>

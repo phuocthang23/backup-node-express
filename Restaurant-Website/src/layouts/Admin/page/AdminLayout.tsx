@@ -1,8 +1,11 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import AdminSideBar from "../components/layout/AdminSideBar/AdminSideBar";
 
 const AdminLayout: React.FC = () => {
+  const token = localStorage.getItem("Auth");
+  if (!token) {
+    return <Navigate to="/auth/" />;
+  }
   return (
     <div className="w-full ">
       <div className="flex w-full ">

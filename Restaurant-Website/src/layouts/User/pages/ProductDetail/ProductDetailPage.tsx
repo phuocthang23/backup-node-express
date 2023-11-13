@@ -5,12 +5,12 @@ import { addTocart, getAllSizeProduct, getOneProducts } from "../../../../api";
 import { BsFillStarFill, BsStar } from "react-icons/bs";
 import { Carousel } from "flowbite-react";
 import { ToastContainer, toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<any>();
   const isCheck = localStorage.getItem("Auth");
   const [selectedSize, setSelectedSize] = useState<any>();
-  // const [sizeProduct, setSizeProduct] = useState<any>("");
-
+  const dispatch = useDispatch();
   const [size, setSize] = useState(1); //* tên size
   //* product
   const [product, setProduct] = useState<any>();
@@ -18,9 +18,10 @@ const ProductDetailPage: React.FC = () => {
   useEffect(() => {
     const data = async () => {
       const response = await getOneProducts(id);
+
       setProduct(response.data);
       setSelectedSize(response?.data.sizes[1]?.priceSize);
-      setSize(response?.data?.sizes[1]?.id);
+      setSize(response?.data?.sizes[0]?.id);
     };
     data();
   }, []);
@@ -36,7 +37,7 @@ const ProductDetailPage: React.FC = () => {
     console.log(productSizeArray);
     const productId = Number(id);
     const sizeId = Number(size);
-    console.log(productId, sizeId, "---------------");
+    // console.log(productId, sizeId, "---------------");
 
     const cart = {
       productId: productId,
@@ -44,19 +45,28 @@ const ProductDetailPage: React.FC = () => {
       quantity: value,
     };
 
-    console.log(cart, "------------------");
+    // console.log(cart, "------------------");
 
-    const responseCart = await addTocart(cart);
+    if (product?.stock < value || product?.stock === 0) {
+      toast.error(
+        "Số lượng sản phẩm hiện tại chỉ còn " + product?.stock + " sản phẩm"
+      );
+    } else {
+      const responseCart = await addTocart(cart);
 
-    if ((responseCart as any).status === 201) {
-      toast.success("đã thêm vào giỏ hàng thành công");
+      if ((responseCart as any).status === 201) {
+        dispatch({
+          type: "UPDATE",
+        });
+        toast.success("đã thêm vào giỏ hàng thành công");
+      }
     }
   };
 
   // ^ -------------------------------------------------------------------------------------
   const [value, setValue] = useState(1);
   const handleIncrement = () => {
-    setValue(value + 1);
+    setValue(value + 1 > product?.stock ? product?.stock : value + 1);
   };
   const handleDecrement = () => {
     if (value > 1) {
@@ -101,7 +111,7 @@ const ProductDetailPage: React.FC = () => {
             <img
               src={`${
                 product?.imageProducts !== undefined &&
-                product?.imageProducts[2]?.src
+                product?.imageProducts[1]?.src
               }`}
               className="w-[500px] h-[450px]"
             />
@@ -131,7 +141,7 @@ const ProductDetailPage: React.FC = () => {
               {formattedNumber}VND
             </p>
             <h2 className="text-lg title-font text-black font-bold">
-              Số Lượng - {product?.stock}
+              Số Lượng : {product?.stock}
             </h2>
             <div className=" mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
               <div className="flex  items-center">
@@ -140,8 +150,6 @@ const ProductDetailPage: React.FC = () => {
                   <div className="flex items-center">
                     {product?.sizes !== undefined &&
                       product?.sizes.map((size) => {
-                        console.log("size", size.priceSize);
-                        console.log(selectedSize);
                         return (
                           <button
                             key={size.id}

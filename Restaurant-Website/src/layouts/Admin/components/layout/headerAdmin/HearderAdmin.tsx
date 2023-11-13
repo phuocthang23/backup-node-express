@@ -1,21 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useLocation } from "react-router-dom";
 import Breadcrumbs from "./BreadCrumbs";
-import { useEffect, useState } from "react";
+// import { useState } from "react";
+import SearchComponent from "../../search";
 
-interface prop {
-  title: string;
-  handleSearch(value: string): void;
-}
-const HearderAdmin = (props: prop) => {
-  const [value, setValue] = useState("");
-  useEffect(() => {
-    props.handleSearch(value);
-  }, [value]);
-
-  // const handleSearch = () => {
-  //   const searchParams = new URLSearchParams(location.search);
-  //   searchParams.set("query", value);
-  //   history.push({ search: searchParams.toString() });
-  // };
+const HearderAdmin = (props: any) => {
+  const { handleGetData } = props;
 
   return (
     <nav className="bg-white border-gray-200 top-0 ">
@@ -27,16 +17,7 @@ const HearderAdmin = (props: prop) => {
         </span>
         {/* input search */}
         <div className="flex items-center bg-white">
-          <input
-            type="text"
-            value={value}
-            className="w-[500px] px-4 py-2 text-gray-700 border-r-0 border rounded-l-lg focus:outline-none"
-            placeholder="Search..."
-            onChange={(e) => setValue(e.target.value)}
-          />
-          <button className="px-4 py-[9px] text-white bg-blue-500 rounded-r-lg hover:bg-blue-600 focus:outline-none">
-            Search
-          </button>
+          <SearchComponent slug={props.slug} handleGetData={handleGetData} />
         </div>
       </div>
     </nav>

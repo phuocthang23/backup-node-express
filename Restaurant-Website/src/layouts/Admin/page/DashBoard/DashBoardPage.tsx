@@ -1,7 +1,7 @@
 import ChartCOmpoent from "./Chart";
 import { CardTop } from "./CardTop";
 import BestSeller from "./BestSeller";
-import Discount from "./Discount";
+// import Discount from "./Discount";
 const DashBoardPage = () => {
   return (
     <div className="">
@@ -17,9 +17,9 @@ const DashBoardPage = () => {
         <div className="w-3/5">
           <BestSeller />
         </div>
-        <div className="w-2/5">
+        {/* <div className="w-2/5">
           <Discount />
-        </div>
+        </div> */}
       </div>
     </div>
   );

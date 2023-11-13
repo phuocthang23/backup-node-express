@@ -1,7 +1,7 @@
 "use client";
 
 import Blog from "../../components/Blog/Blog";
-// import MostSeller from "../../components/MostSeller/MostSeller";
+import MostSeller from "../../components/MostSeller/MostSeller";
 import Menu from "./Menu";
 // import Navbar from "../../components/Header/Navbar";
 import SlidingInterval from "../../components/Carousel/Slider";
@@ -13,7 +13,7 @@ export default function HomePage() {
         <SlidingInterval />
       </div>
       {/* <Navbar /> */}
-      {/* <MostSeller /> */}
+      <MostSeller />
       <Menu />
       <Blog />
     </div>

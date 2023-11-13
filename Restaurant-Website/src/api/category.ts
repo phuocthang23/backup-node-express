@@ -65,3 +65,14 @@ export const editCategory = (id: number, data: string) => {
       console.error("Error fetching data:", error);
     });
 };
+
+export const getProductByCategory = (id: number) => {
+  return axios
+    .get(`http://localhost:8000/product/category/${id}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+};

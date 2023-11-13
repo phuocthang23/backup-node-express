@@ -6,10 +6,12 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../Admin/components/loading";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
 
+  const [spinner, setSpinner] = useState<boolean>(false);
   const [user, setUser] = useState<any>({
     firstName: "",
     lastName: "",
@@ -28,6 +30,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSpinner(true);
     const regex = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/i;
 
     const newErrors = {
@@ -38,30 +41,49 @@ const RegisterPage = () => {
       RePassword: "",
     };
 
+    const alphabeticRegex = /^[a-zA-Z]+$/;
+
     if (user.firstName.trim() === "" || user.lastName.trim() === "") {
+      setSpinner(false);
       newErrors.firstName = "firstName không được để trống";
       newErrors.lastName = "lastName không được để trống";
     } else if (user.firstName.length < 3 || user.firstName.length > 10) {
+      setSpinner(false);
       newErrors.firstName =
         "firstName phải từ 3 ký tự trở lên và từ 10 ký tự trở xuống";
     } else if (user.lastName.length < 3 || user.lastName.length > 10) {
+      setSpinner(false);
       newErrors.lastName =
         "lastName phải từ 3 ký tự trở lên và từ 20 ký tự trở xuống";
+    } else if (user.password.length < 8 || user.password.length > 20) {
+      setSpinner(false);
+      newErrors.password = "Mật khẩu phải từ 8 đến 20 ký tự";
+    } else if (!alphabeticRegex.test(user.lastName)) {
+      setSpinner(false);
+      newErrors.lastName = "lastName chỉ được chứa chữ cái";
+    } else if (!alphabeticRegex.test(user.fisrtName)) {
+      setSpinner(false);
+      newErrors.firstName = "firstName chỉ được chứa chữ cái";
     }
 
     if (user.email.trim() === "") {
+      setSpinner(false);
       newErrors.email = "Email không được để trống";
     } else if (!regex.test(user.email)) {
+      setSpinner(false);
       newErrors.email = "Email không hợp lệ";
     }
 
     if (user.password.trim() === "") {
+      setSpinner(false);
       newErrors.password = "Mật khẩu không được để trống";
     }
 
     if (user.RePassword.trim() === "") {
+      setSpinner(false);
       newErrors.RePassword = "Nhập lại mật khẩu không được để trống";
     } else if (user.RePassword !== user.password) {
+      setSpinner(false);
       newErrors.RePassword = "Mật khẩu không trùng khớp";
     }
 
@@ -79,6 +101,7 @@ const RegisterPage = () => {
         );
 
         if (response.status === 201) {
+          setSpinner(false);
           if (response.data?.success === false) {
             toast.error(`email ${user.email} đã tồn tại`, {
               position: "top-right",
@@ -90,6 +113,7 @@ const RegisterPage = () => {
               theme: "colored",
             });
           } else {
+            setSpinner(false);
             toast.success("Đăng ký thành công", {
               position: "top-right",
               autoClose: 2000,
@@ -101,10 +125,11 @@ const RegisterPage = () => {
             });
             setTimeout(() => {
               navigate("/auth");
-            }, 2500);
+            }, 2000);
           }
         }
       } catch (error) {
+        setSpinner(false);
         console.error(error);
       }
     }
@@ -112,6 +137,7 @@ const RegisterPage = () => {
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
+      {spinner ? <Loading /> : ""}
       <div className="flex flex-col items-center justify-center px-24 py-8 mx-auto md:h-screen lg:py-0">
         <div className=" w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -119,8 +145,8 @@ const RegisterPage = () => {
             <form className="space-y-8 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <FormInput
-                  placeholder="UserName"
-                  text="UserName"
+                  placeholder="FirstName"
+                  text="FirstName"
                   type="text"
                   name="firstName"
                   value={user.firstName}
